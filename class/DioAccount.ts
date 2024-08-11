@@ -1,4 +1,7 @@
 export abstract class DioAccount {
+  static validateStatus() {
+    throw new Error("Method not implemented.")
+  }
   private name: string
   private readonly accountNumber: number
   balance: number = 0
@@ -8,31 +11,33 @@ export abstract class DioAccount {
     this.name = name
     this.accountNumber = accountNumber
   }
-
-  setName = (name: string): void => {
-    this.name = name
-    console.log('Nome alterado com sucesso!')
-  }
-
+  
   getName = (): string => {
     return this.name
   }
 
-  deposit = (): void => {
-    if(this.validateStatus()){
-      console.log('Voce depositou')
+  deposit = (balance: number): number => {
+    this.balance = balance
+    if (this.validateStatus()) {
+      console.log(`Deposito realizado com sucesso! Saldo: R$${balance}`)
     }
+    return balance
   }
 
-  withdraw = (): void => {
-    console.log('Voce sacou')
+  withdraw = ():  void => {
+    if(this.validateStatus() && this.balance > 0){
+      console.log(`Realize seu saque! Saldo disponível: R$${this.balance}`)
+    }
+    else {
+      console.log(`Saldo insuficiente: ${this.balance}`)
+    }
   }
 
   getBalance = (): void => {
     console.log(this.balance)
   }
 
-  private validateStatus = (): boolean => {
+   validateStatus = (): boolean => {
     if (this.status) {
       return this.status
     }
